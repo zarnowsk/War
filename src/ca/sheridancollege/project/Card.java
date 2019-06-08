@@ -1,7 +1,12 @@
 /**
- * SYST 17796 Project Winter 2019 Base code.
- * Students can modify and extend to implement their game.
- * Add your name as a modifier and the date!
+ * SYST 17796 Project Winter 2019.
+ * War card game.
+ * Date created: 07-JUNE-2019
+ * Owned by: Michal Zarnowski
+ * Collaborators: Paige Freeman-Cyopeck, Vinayak Pavate
+ * Copyright: This work is the intellectual property of the owner and collaborators. Any further copying and
+ * distribution must be within the Copyright law. Posting to commercial sites for profit is prohibited.
+ * Citations: Base code designed by (github)alihassan-1
  */
 package ca.sheridancollege.project;
 
@@ -13,7 +18,7 @@ package ca.sheridancollege.project;
  */
 public abstract class Card 
 {
-    //default modifier for child classes
+    //default modifier for child classes???
     
     /**
      * Students should implement this method for their specific children classes 
@@ -22,5 +27,5 @@ public abstract class Card
     
     @Override
     public abstract String toString();
-    
+    //IMPLEMENT!
 }
