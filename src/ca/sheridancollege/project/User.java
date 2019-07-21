@@ -9,7 +9,6 @@ public class User {
     private final String name;
     private char hotKey;
     private boolean machine;
-    //Error cause there is no Deck class yet.
     private Deck deck;
 
     //Constructor to create a User
@@ -38,11 +37,7 @@ public class User {
     public boolean isMachine() {
         return machine;
     }
-//error because the java file Deck has not yet been implemented
 
-    public Deck getDeck() {
-        return deck;
-    }
     
 
 }
