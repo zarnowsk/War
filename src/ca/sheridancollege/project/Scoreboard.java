@@ -8,8 +8,8 @@ public class Scoreboard {
 
     private final String userName;
     private final String opponentName;
-    public int userScore;
-    public int opponentScore;
+    private int userScore;
+    private int opponentScore;
 
     public Scoreboard(String userName, String opponentName, int userScore, int opponentScore) {
         this.userName = userName;
@@ -34,12 +34,12 @@ public class Scoreboard {
         return opponentScore;
     }
 
-    public void setUserScore(int score) {
-        userScore = score;
+    public void incrementUserScore() {
+        userScore++;
     }
     
-    public void setOpponentScore(int score) {
-        opponentScore = score;
+    public void incrementOpponentScore() {
+        opponentScore++;
     }
     
     @Override
