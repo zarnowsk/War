@@ -62,6 +62,12 @@ public class Game {
         return player;
     }
 
+    /**
+     * Method creates a blank scoreboard with names of supplied users.
+     * @param player Human user.
+     * @param machine Machine user.
+     * @return Blank scoreboard initialized with user's and machine's names.
+     */
     private Scoreboard createScoreboard(User player, User machine) {
         //Player's name
         String pName = player.getName();
