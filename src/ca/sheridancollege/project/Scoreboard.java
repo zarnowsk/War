@@ -11,11 +11,11 @@ public class Scoreboard {
     private int userScore;
     private int opponentScore;
 
-    public Scoreboard(String userName, String opponentName, int userScore, int opponentScore) {
+    public Scoreboard(String userName, String opponentName) {
         this.userName = userName;
         this.opponentName = opponentName;
-        this.userScore = userScore;
-        this.opponentScore = opponentScore;
+        userScore = 0;
+        opponentScore = 0;
     }
 
     public String getUserName() {
