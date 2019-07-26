@@ -29,8 +29,8 @@ public class Card {
      * @param suit(enum)
      */
     Card(Value value, Suit suit) {
-        value = this.value;
-        suit = this.suit;
+        this.value = value;
+        this.suit = suit;
     }
     
     /**
@@ -38,8 +38,8 @@ public class Card {
      * the name of the card (Returns 1 instead of ACE)
      * @return the Value of the card.
      */
-    public int getValue() {
-        return value.getValue();
+    public Value getValue() {
+        return value;
     }
     
     /**
@@ -47,17 +47,15 @@ public class Card {
      * @return The Suit of the card.
      */
     public Suit getSuit() {
-        return suit.getSuit();
+        return suit;
     }
-    
-    /*
-    
     
     @Override
     public String toString() {
-        return
+        String card = "" + this.getValue() + " OF " + this.getSuit();
+        return card;
     }
-*/
+
     
     
     
