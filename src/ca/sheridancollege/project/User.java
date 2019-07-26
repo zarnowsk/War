@@ -38,6 +38,13 @@ public class User {
         return machine;
     }
 
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
+    
+    public Deck getDeck() {
+        return deck;
+    }
     
 
 }
