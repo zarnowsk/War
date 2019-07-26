@@ -12,7 +12,7 @@ class Deck {
     private ArrayList<Card> deck = new ArrayList<>();
     
     public Deck() {
-        deck = generateDeck();
+        
     }
     
     /**
@@ -20,7 +20,7 @@ class Deck {
      * @return Returns an ArrayList<Card> which has been generated according to
      * a standard card deck (52 cards, 13 cards for each suit.)
      */
-    private ArrayList<Card> generateDeck() {
+    public ArrayList<Card> generateDeck() {
         for(Suit s : Suit.values()) {
             for(Value v : Value.values()) {
                 Card tempCard = new Card(v, s);
@@ -28,6 +28,14 @@ class Deck {
             }
         }
         return deck;
+    }
+
+    public Card get(int index) {
+        return deck.get(index);
+    }
+    
+    public void add(Card card) {
+        deck.add(card);
     }
     
     /**
