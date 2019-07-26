@@ -31,8 +31,8 @@ public enum Value {
      * but still retain their correct user friendly name.
      * @param value 
      */
-    Value(int value) {
-        value = this.value;
+    private Value(int value) {
+        this.value = value;
     }
     
     /**
