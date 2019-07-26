@@ -5,12 +5,15 @@ import java.util.Collections;
 
 /**
  *
- * @author acer
+ * @author Paige Freeman-Cyopeck
  */
 class Deck {
     
     private ArrayList<Card> deck = new ArrayList<>();
     
+    public Deck() {
+        deck = generateDeck();
+    }
     
     /**
      * Method which generates the card deck.
@@ -32,7 +35,7 @@ class Deck {
      * @param deck
      * @return The deck after it has been shuffled.
      */
-    private ArrayList<Deck> shuffleDeck(ArrayList<Deck> deck) {
+    public ArrayList<Card> shuffleDeck() {
         Collections.shuffle(deck);
         return deck;
     }
@@ -42,10 +45,18 @@ class Deck {
      * @param deck
      * @return the current size of the deck.
      */
-    private int checkSize(ArrayList<Deck> deck) {
+    public int checkSize() {
         return deck.size();
     }
     
+    @Override
+    public String toString() {
+        String string = "";
+        for(int i = 0; i < deck.size(); i++) {
+            string += deck.get(i) + "\n";
+        }
+        return string;
+    }
     
 
 }
