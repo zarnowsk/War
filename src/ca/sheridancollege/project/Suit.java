@@ -10,14 +10,18 @@ package ca.sheridancollege.project;
  * @author pfree
  */
 public enum Suit {
-    HEARTS,
-    DIAMONDS,
-    SPADES,
-    CLUBS;
+    HEARTS ("Hearts"),
+    DIAMONDS ("Diamonds"),
+    SPADES ("Spades"),
+    CLUBS ("Clubs");
 
-    private Suit suit;
+    private String suit;
     
-    public Suit getSuit() {
-        return this.suit;
+    private Suit(String suit) {
+        this.suit = suit;
+    }
+    
+    public String getSuit() {
+        return suit;
     }
 }
