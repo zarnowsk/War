@@ -6,14 +6,14 @@ package ca.sheridancollege.project;
  */
 public class Scoreboard {
 
-    private final String userName;
-    private final String opponentName;
+    private String userName;
+    private String opponentName;
     private int userScore;
     private int opponentScore;
 
-    public Scoreboard(String userName, String opponentName) {
-        this.userName = userName;
-        this.opponentName = opponentName;
+    public Scoreboard() {
+        userName = "";
+        opponentName = "";
         userScore = 0;
         opponentScore = 0;
     }
@@ -26,6 +26,14 @@ public class Scoreboard {
         return opponentName;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setOpponentName(String opponentName) {
+        this.opponentName = opponentName;
+    }
+    
     public int getUserScore() {
         return userScore;
     }
@@ -44,7 +52,7 @@ public class Scoreboard {
     
     @Override
     public String toString(){
-         String format = "%s's score: %d \n %s's score: %d";
+         String format = "%s's score: %d \n%s's score: %d";
         return String.format(format, userName,userScore,opponentName,opponentScore);
         
     }
