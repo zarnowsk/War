@@ -10,7 +10,7 @@ package ca.sheridancollege.project;
  * @author pfree
  */
 public enum Value {
-    ACE (1), 
+    ACE (14), 
     TWO (2), 
     THREE (3), 
     FOUR (4), 
