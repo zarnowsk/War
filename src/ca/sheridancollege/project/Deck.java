@@ -38,6 +38,16 @@ class Deck {
         deck.add(card);
     }
     
+    public Card pop() {
+        if(deck.size() > 0) {
+            Card card = deck.get(0);
+            deck.remove(0);
+            return card;
+        } else {
+            throw new NullPointerException("Deck is empty");
+        }
+    }
+    
     /**
      * Utilizes the collections import to shuffle the deck on the ArrayList<Card>
      * @param deck
