@@ -38,16 +38,16 @@ public class Card {
      * the name of the card (Returns 1 instead of ACE)
      * @return the Value of the card.
      */
-    public Value getValue() {
-        return value;
+    public int getValue() {
+        return value.getValue();
     }
     
     /**
      * Uses the Suit enum getSuit() method to return the suit of the current card.
      * @return The Suit of the card.
      */
-    public Suit getSuit() {
-        return suit;
+    public String getSuit() {
+        return suit.getSuit();
     }
     
     @Override
