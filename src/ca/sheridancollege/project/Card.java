@@ -22,6 +22,10 @@ public class Card {
     private Value value;
     private Suit suit;
     
+    Card() {
+        
+    }
+    
     /**
      * Default constructor for the Card object. Creates a card using the Value/Suit
      * enum, and sets the card.
@@ -52,7 +56,21 @@ public class Card {
     
     @Override
     public String toString() {
-        String card = "" + this.getValue() + " of " + this.getSuit();
+        String strValue = "";
+        int value = this.getValue();
+        if(value < 11) {
+            strValue += value;
+        } else if(value == 11) {
+            strValue += "Jack";
+        } else if(value == 12) {
+            strValue += "Queen";
+        } else if(value == 13) {
+            strValue += "King";
+        } else {
+            strValue += "Ace";
+        }
+        
+        String card = "" + strValue + " of " + this.getSuit();
         return card;
     }
 
