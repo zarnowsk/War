@@ -16,6 +16,9 @@ import java.util.Scanner;
 public class Game {
     
     private static Scanner input = new Scanner(System.in);
+    private static char reservedStatsChar = 's';
+    private static Scoreboard scoreboard = new Scoreboard();
+    private static boolean nextGame = false;
     private static boolean gameOver = false;
     
     public static void main(String[] args) {
@@ -38,6 +41,7 @@ public class Game {
         
         Deck playerCurrentDeck = new Deck();
         Deck machineCurrentDeck = new Deck();
+ 
         //For every card in the deck, add nth card to player's deck, add nth+1 card to machine's deck
         for(int i = 0; i < mainDeck.checkSize(); i += 2) {
             playerCurrentDeck.add(mainDeck.get(i));
@@ -54,13 +58,31 @@ public class Game {
         player.setNextDeck(playerNextDeck);
         machine.setNextDeck(machineNextDeck);
         
-        //Create a blank scoreboard with user details
-        Scoreboard scoreboard = game.createScoreboard(player, machine);
+        //Assign names to scoreboard
+        scoreboard.setUserName(player.getName());
+        scoreboard.setOpponentName(machine.getName());
         
         // ****** GAMEPLAY *****
-        while(!gameOver) {
-            game.playTopCards(player, machine);
-        }
+        
+        String userInput = "";
+        
+        do {
+            //Play next round if the game is alive
+            while(!gameOver) {
+                //Allow the user to hit their hot key to play next card or hit "stat" key to display game stats
+                System.out.println("\n" + player.getName() + " hit your hot key to play card. Hit 's' to display game stats");
+                userInput = input.nextLine();
+                if(userInput.length() > 0) {
+                    if(Character.getNumericValue(userInput.charAt(0)) == Character.getNumericValue(player.getHotKey())) {
+                        game.playTopCards(player, machine);
+                    } else if(Character.getNumericValue(userInput.charAt(0)) == Character.getNumericValue(reservedStatsChar)) {
+                        game.displayGameStats(player, machine);
+                    }
+                }
+            }
+            //Check if user would like to play another game
+            game.playNextGame(player, machine);
+        }while(nextGame);
         
     }
     
@@ -72,6 +94,7 @@ public class Game {
         
         String userName = "";
         String key = "";
+        boolean valid = false;
         
         //Validate user input for player name. Must not be empty String
         do {
@@ -79,37 +102,25 @@ public class Game {
             userName = input.nextLine();
         }while(userName.length() == 0);
         
-        //Validate user input for hot key. Must be of length 1.
+        //Validate user input for hot key. Must be of length 1. Cannot be 's' as its reserved.
         do {
             System.out.println("Select your default 'play card' key: ");
             key = input.nextLine();
             if(key.length() != 1) {
                 System.out.println("Your play key must be a single character");
+            } else if(key.charAt(0) == reservedStatsChar) {
+                System.out.println("Please choose a different key, this one is reserved");
+            } else {
+                valid = true;
             }
-        }while(key.length() != 1);
+            
+        }while(!valid);
         
         char hotKey = key.charAt(0);
         
         User player = new User(userName, hotKey);
         return player;
    } 
-
-    /**
-     * Method creates a blank scoreboard with names of supplied users.
-     * @param player Human user.
-     * @param machine Machine user.
-     * @return Blank scoreboard initialized with user's and machine's names.
-     */
-    private Scoreboard createScoreboard(User player, User machine) {
-        //Player's name
-        String pName = player.getName();
-        //Machine's name
-        String mName = machine.getName();
-
-        Scoreboard scoreboard = new Scoreboard(pName, mName);
-
-        return scoreboard;
-    }
     
     /**
      * Method displays each player's top card, evaluates them and displays the winner of the round if there is one.
@@ -119,12 +130,12 @@ public class Game {
      * @param machine User object of player 2(PC)
      */
     private void playTopCards(User player, User machine) {
-        //Get top deck cards via getTopCard() method
-        Card playerCard = getTopCard(player);
-        Card machineCard = getTopCard(machine);
-        
-        //If top cards exist(players had cards in their decks), display and compare both cards
         try {
+            //Get top deck cards via getTopCard() method
+            Card playerCard = getTopCard(player);
+            Card machineCard = getTopCard(machine);
+            
+            //If top cards exist(players had cards in their decks), display and compare both cards
             String playerRound = player.getName() + "'s card: " + playerCard;
             String machineRound = machine.getName() + "'s card: " + machineCard;
             System.out.println(playerRound);
@@ -140,11 +151,12 @@ public class Game {
                 machine.getNextDeck().add(machineCard);
                 System.out.println(machine.getName() + " wins this round");
             } else {
-                war();
+                System.out.println("WAR!");
+                war(player, playerCard, machine, machineCard);
             }
         } catch(Exception e) {
             //If any of the player's ran out of cards, call terminateGame()
-            terminateGame();
+            terminateGame(player);
         }
         
     }
@@ -166,7 +178,8 @@ public class Game {
                 setNextDeck(user);
                 card = user.getCurrentDeck().pop();
             } catch(Exception ee) {
-
+                System.out.println(user.getName() + " ran out of cards!!!");
+                throw new NullPointerException();
             }
         }
         return card;
@@ -189,13 +202,163 @@ public class Game {
         user.getCurrentDeck().shuffleDeck();
     }
     
-    private void war() {
-        //TO BE IMPLEMENTED
+    /**
+     * Method simulates the game action of War. Players draw their next top card, place it upside down on their decks. 
+     * Next players draw their next topmost card to evaluate who will win the entire war stack of cards. If the deciding
+     * cards are of same value, the war continues with same procedure.
+     * @param player User object of the player
+     * @param playerCardOne Player's card which initiated the war
+     * @param machine User object of the machine
+     * @param machineCardOne Machine's card which initiated the war
+     */
+    private void war(User player, Card playerCardOne, User machine, Card machineCardOne) {
+        //Initialize variables utilized in this function
+        Deck winningPool = new Deck();
+        User winner = player;
+        boolean warResolved = true;
+        Card decidingPlayerCard = new Card();
+        Card decidingMachineCard = new Card();
+        
+        //Add the cards that caused the war to the war winning pool
+        winningPool.add(playerCardOne);
+        winningPool.add(machineCardOne);
+        
+        //Repeat the following process until war is resolved (war continues if deciding (third) cards are of same value:
+        // - Add second card of each player to winning pool (simulates cards facing down)
+        // - Assign next top card from each user as their deciding cards, also add to winning pool
+        // - Display deciding cards and compare them, if values differ, announce the winner, assign the winner and
+        //   declare warResolved variable as true
+        // - If values of deciding cards are the same, repeat the process until war can be resolved
+        do {
+            winningPool.add(getTopCard(player));
+            winningPool.add(getTopCard(machine));
+            
+            decidingPlayerCard = getTopCard(player);
+            decidingMachineCard = getTopCard(machine);
+            winningPool.add(decidingPlayerCard);
+            winningPool.add(decidingMachineCard);
+            
+            System.out.println("Placing each player's next card upside down on each deck.\nNext card will determine the winner!");
+            String playerRound = player.getName() + "'s next card: " + decidingPlayerCard;
+            String machineRound = machine.getName() + "'s next card: " + decidingMachineCard;
+            System.out.println(playerRound);
+            System.out.println(machineRound);
+            
+            if(decidingPlayerCard.getValue() > decidingMachineCard.getValue()){
+                System.out.println(player.getName() + " wins the war and takes the winning pool!");
+                winner = player;
+                warResolved = true;
+            } else if(decidingPlayerCard.getValue() < decidingMachineCard.getValue()) {
+                System.out.println(machine.getName() + " wins the war and takes the winning pool!");
+                winner = machine;
+                warResolved = true;
+            } else {
+                warResolved = false;
+                System.out.println("The War continues!");
+            }
+            
+        }while(!warResolved);
+        
+        //Add all cards from winning pool to winners next deck
+        for(int i = 0; i < winningPool.checkSize(); i++) {
+            winner.getNextDeck().add(winningPool.get(i));
+        }
+        
+        //Display the winnings
+        System.out.println("WINNING POOL:");
+        System.out.println(winningPool);
+        
     }
     
-    private void terminateGame() {
-        //TO BE IMPLEMENTED
+    /**
+     * Method displays the game statistics including player's current and next deck and the machines card count. 
+     * Machine's deck does not get displayed as it would be considered cheating.
+     * @param player User object of the player
+     * @param machine User object of the machine
+     */
+    private void displayGameStats(User player, User machine) {
+        System.out.println("");
+        System.out.println("***********************");
+        System.out.println("GAME STATS");
+        
+        System.out.println("PLAYER'S CURRENT DECK");
+        System.out.println(player.getCurrentDeck());
+        System.out.println("");
+        
+        System.out.println("PLAYER'S NEXT DECK");
+        System.out.println(player.getNextDeck());
+        System.out.println("");
+        
+        int machineDeckCount = machine.getCurrentDeck().checkSize() + machine.getNextDeck().checkSize();
+        System.out.println("MACHINES CARD COUNT: " + machineDeckCount);
+        System.out.println("***********************");
+        System.out.println("");
+    }
+
+    /**
+     * Method is called when a game is over. Global gameOver variable is set to true. Scoreboard is adjusted according
+     * to the round winner and then displayed. 
+     * @param player User object, used for checking who won the game
+     */
+    private void terminateGame(User player) {
+        //Set global var gameOver to true
         gameOver = true;
         System.out.println("GAME OVER");
+
+        //Adjust scoreboard based on user deck count. If total cards left in user's decks is 0, he lost the game,
+        //otherwise machine lost the game.
+        int playerDeckCount = player.getCurrentDeck().checkSize() + player.getNextDeck().checkSize();
+        if(playerDeckCount == 0) {
+            scoreboard.incrementOpponentScore();
+        } else {
+            scoreboard.incrementUserScore();
+        }
+        
+        //Displaye scoreboard to user
+        System.out.println(scoreboard);
+    }
+    
+    /**
+     * Method gives the user a choice of starting a new game
+     * @param player User object of the player
+     * @param machine User object of the machine
+     */
+    private void playNextGame(User player, User machine) {
+        String answer = "";
+        boolean validAnswer = false;
+        
+        //Get user input and validate to be Y/y/N/n only
+        do {
+            System.out.println("Would you like to play another game? (Y/N)");
+            answer = input.nextLine();
+            if(answer.length() > 0) {
+                if(answer.charAt(0) == 'y' || answer.charAt(0) == 'Y' ||
+                        answer.charAt(0) == 'n' || answer.charAt(0) == 'N') {
+                    validAnswer = true;
+                }
+            }
+        }while(!validAnswer);
+        
+        //If user answered Y/y, reset decks
+        if(answer.charAt(0) == 'Y' || answer.charAt(0) == 'y') {
+            nextGame = true;
+            gameOver = false;
+            //Clear all remaining cards from the round
+            player.getCurrentDeck().clear();
+            player.getNextDeck().clear();
+            machine.getCurrentDeck().clear();
+            machine.getNextDeck().clear();
+            
+            //Create new temporay deck and shuffle
+            Deck newDeck = new Deck();
+            newDeck.generateDeck();
+            newDeck.shuffleDeck();
+            
+            //For every card in the deck, add nth card to player's deck, add nth+1 card to machine's deck
+            for(int i = 0; i < newDeck.checkSize(); i += 2) {
+                player.getCurrentDeck().add(newDeck.get(i));
+                machine.getCurrentDeck().add(newDeck.get(i + 1));
+            }
+        }
     }
 }
