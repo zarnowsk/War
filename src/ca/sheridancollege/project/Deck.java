@@ -67,6 +67,10 @@ class Deck {
         return deck.size();
     }
     
+    public void clear() {
+        deck.clear();
+    }
+    
     @Override
     public String toString() {
         String string = "";
