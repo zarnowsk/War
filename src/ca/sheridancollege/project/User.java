@@ -9,7 +9,8 @@ public class User {
     private final String name;
     private char hotKey;
     private boolean machine;
-    private Deck deck;
+    private Deck currentDeck;
+    private Deck nextDeck;
 
     //Constructor to create a User
     public User(String name, char hotKey) {
@@ -38,12 +39,20 @@ public class User {
         return machine;
     }
 
-    public void setDeck(Deck deck) {
-        this.deck = deck;
+    public void setCurrentDeck(Deck deck) {
+        this.currentDeck = deck;
     }
     
-    public Deck getDeck() {
-        return deck;
+    public Deck getCurrentDeck() {
+        return currentDeck;
+    }
+    
+    public void setNextDeck(Deck deck) {
+        this.nextDeck = deck;
+    }
+    
+    public Deck getNextDeck() {
+        return nextDeck;
     }
     
 
