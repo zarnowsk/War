@@ -52,7 +52,7 @@ public class Card {
     
     @Override
     public String toString() {
-        String card = "" + this.getValue() + " OF " + this.getSuit();
+        String card = "" + this.getValue() + " of " + this.getSuit();
         return card;
     }
 
