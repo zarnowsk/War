@@ -90,7 +90,7 @@ public class War {
      * Method creates and returns a new User entity from validated user input.
      * @return A new User entity
      */
-    private User createUser() {
+    protected User createUser() {
         
         String userName = "";
         String key = "";
@@ -129,7 +129,7 @@ public class War {
      * @param player User object of player 1
      * @param machine User object of player 2(PC)
      */
-    private void playTopCards(User player, User machine) {
+    protected void playTopCards(User player, User machine) {
         try {
             //Get top deck cards via getTopCard() method
             Card playerCard = getTopCard(player);
@@ -166,7 +166,7 @@ public class War {
      * @param user User object of a player
      * @return Card object
      */
-    private Card getTopCard(User user) {
+    protected Card getTopCard(User user) {
         Card card = new Card();
         //Return first Card in the current Deck if deck not empty
         try {
@@ -189,7 +189,7 @@ public class War {
      * Method sets user's next deck as their current deck and shuffles it. Players next deck is cleared for future use.
      * @param user User object
      */
-    private void setNextDeck(User user) {
+    protected void setNextDeck(User user) {
         //Create a temporary deck from player's next deck
         Deck tempDeck = user.getNextDeck();
         //Transfer all cards from temp deck to player's current deck
@@ -211,7 +211,7 @@ public class War {
      * @param machine User object of the machine
      * @param machineCardOne Machine's card which initiated the war
      */
-    private void war(User player, Card playerCardOne, User machine, Card machineCardOne) {
+    protected void war(User player, Card playerCardOne, User machine, Card machineCardOne) {
         //Initialize variables utilized in this function
         Deck winningPool = new Deck();
         User winner = player;
@@ -300,7 +300,7 @@ public class War {
      * to the round winner and then displayed. 
      * @param player User object, used for checking who won the game
      */
-    private void terminateGame(User player) {
+    protected void terminateGame(User player) {
         //Set global var gameOver to true
         gameOver = true;
         System.out.println("GAME OVER");
