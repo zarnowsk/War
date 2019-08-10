@@ -73,6 +73,22 @@ public class Card {
         String card = "" + strValue + " of " + this.getSuit();
         return card;
     }
+    
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof Card){
+            Card inputCard = (Card)obj;
+            
+            if(this.suit == inputCard.suit && this.value == inputCard.value) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        
+    }
 
     
     
