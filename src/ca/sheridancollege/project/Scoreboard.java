@@ -1,8 +1,9 @@
 package ca.sheridancollege.project;
 
 /**
- *
- * @author acer
+ * Class representing a scoreboard for the game. Used to keep track of 
+ * user's scores if multiple games are played.
+ * @author Vinayak Pavate
  */
 public class Scoreboard {
 
@@ -11,6 +12,9 @@ public class Scoreboard {
     private int userScore;
     private int opponentScore;
 
+    /**
+     * Default constructor
+     */
     public Scoreboard() {
         userName = "";
         opponentName = "";
@@ -18,6 +22,7 @@ public class Scoreboard {
         opponentScore = 0;
     }
 
+    //Getters and setters for the class
     public String getUserName() {
         return userName;
     }
@@ -42,10 +47,16 @@ public class Scoreboard {
         return opponentScore;
     }
 
+    /**
+     * Method used to increment player's score by 1
+     */
     public void incrementUserScore() {
         userScore++;
     }
     
+    /**
+     * Method used to increment machine's score by 1
+     */
     public void incrementOpponentScore() {
         opponentScore++;
     }
