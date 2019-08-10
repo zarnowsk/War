@@ -3,7 +3,7 @@
  * War card game.
  * Date created: 07-JUNE-2019
  * Owned by: Michal Zarnowski
- * Collaborators: Paige Freeman-Cyopeck, Vinayak Pavate
+ * Collaborators: Vinayak Pavate
  * Copyright: This work is the intellectual property of the owner and collaborators. Any further copying and
  * distribution must be within the Copyright law. Posting to commercial sites for profit is prohibited.
  * Citations: Base code designed by (github)alihassan-1
@@ -22,6 +22,9 @@ public class Card {
     private Value value;
     private Suit suit;
     
+    /**
+     * Default constructor.
+     */
     Card() {
         
     }
