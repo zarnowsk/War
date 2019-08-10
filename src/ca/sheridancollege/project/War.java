@@ -3,7 +3,7 @@
  * War card game.
  * Date created: 07-JUNE-2019
  * Owned by: Michal Zarnowski
- * Collaborators: Paige Freeman-Cyopeck, Vinayak Pavate
+ * Collaborators: Vinayak Pavate
  * Copyright: This work is the intellectual property of the owner and collaborators. Any further copying and
  * distribution must be within the Copyright law. Posting to commercial sites for profit is prohibited.
  * Citations: Base code designed by (github)alihassan-1
@@ -13,6 +13,11 @@ package ca.sheridancollege.project;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Class containing main method for the project. This class simulates the game play of card 
+ * game War.
+ * @author Michal Zarnowski
+ */
 public class War {
     
     private static Scanner input = new Scanner(System.in);
