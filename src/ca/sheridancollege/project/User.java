@@ -1,8 +1,8 @@
 package ca.sheridancollege.project;
 
 /**
- *
- * @author acer
+ * Class representing the players in the game
+ * @author Vinayak Pavate
  */
 public class User {
 
@@ -18,6 +18,7 @@ public class User {
         this.hotKey = hotKey;
     }
 
+    //Getters and setters for the class
     public char getHotKey() {
         return hotKey;
     }
@@ -29,7 +30,6 @@ public class User {
     public void setMachine(boolean machine) {
         this.machine = machine;
     }
-//The next 3 getters are for getUser() 
 
     public String getName() {
         return name;
