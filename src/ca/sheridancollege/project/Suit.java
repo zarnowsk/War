@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ca.sheridancollege.project;
 
 /**
- *
+ * Enumaration class representing the card's suit
  * @author pfree
  */
 public enum Suit {
@@ -17,10 +13,18 @@ public enum Suit {
 
     private String suit;
     
+    /**
+     * Constructer for the Suit
+     * @param suit 
+     */
     private Suit(String suit) {
         this.suit = suit;
     }
     
+    /**
+     * Class accessor
+     * @return 
+     */
     public String getSuit() {
         return suit;
     }
